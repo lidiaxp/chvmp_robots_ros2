@@ -9,16 +9,7 @@
     <arg name="world_init_y" default="0.0" description="Y Initial position of the robot in Gazebo World."/>
     <arg name="world_init_heading" default="0.0" description="Initial heading of the robot in Gazebo World."/>
 
-    <include file="$(find-pkg-share spot_config)/launch/bringup.launch">
-        <arg name="robot_name" value="$(var robot_name)"/>
-        <arg name="gazebo" value="true"/>
-        <arg name="lite" value="$(var lite)"/>
-        <arg name="rviz" value="$(var rviz)"/>
-        <arg name="joint_controller_topic" value="joint_group_position_controller/command"/>
-        <arg name="hardware_connected" value="false"/>
-        <arg name="publish_foot_contacts" value="false"/>
-        <arg name="close_loop_odom" value="true"/>
-    </include>
+
 
     <include file="$(find-pkg-share champ_gazebo)/launch/gazebo.launch">
         <arg name="robot_name" value="$(var robot_name)"/>
