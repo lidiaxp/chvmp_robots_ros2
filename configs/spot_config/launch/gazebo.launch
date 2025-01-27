@@ -3,8 +3,8 @@
     <arg name="robot_name" default="/" description="Change this for namespacing."/>
     <arg name="rviz" default="false" description="Set to true to run RViz in parallel."/>
     <arg name="lite" default="false" description="Set to true if you're using CHAMP lite version. Only useful for microcontrollers."/>
-    <arg name="ros_control_file" default="package://spot_config/config/ros_control/ros_control.yaml" description="Path to ROS Control configurations."/>
-    <arg name="gazebo_world" default="package://spot_config/worlds/outdoor.world" description="Path to Gazebo world to load."/>
+    <arg name="ros_control_file" default="$(find-pkg-share spot_config)/config/ros_control/ros_control.yaml" description="Path to ROS Control configurations."/>
+    <arg name="gazebo_world" default="$(find-pkg-share spot_config)/worlds/outdoor.world" description="Path to Gazebo world to load."/>
     <arg name="gui" default="true" description="Enable GUI in Gazebo."/>
     <arg name="world_init_x" default="0.0" description="X Initial position of the robot in Gazebo World."/>
     <arg name="world_init_y" default="0.0" description="Y Initial position of the robot in Gazebo World."/>
@@ -26,9 +26,7 @@
         </include>
 
         <!-- RViz Node -->
-        <node if="$(var rviz)" pkg="rviz2" exec="rviz2" name="rviz" output="screen">
-            <parameter name="use_sim_time" value="true"/>
-            <argument value="-d package://champ_navigation/rviz/navigate.rviz -f $(var robot_name)/map"/>
-        </node>
+        <node if="$(var rviz)" pkg="rviz2" exec="rviz2" name="rviz" output="screen"
+              args="-d $(find-pkg-share champ_navigation)/rviz/navigate.rviz -f $(var robot_name)/map"/>
     </group>
 </launch>
