@@ -17,8 +17,8 @@
     <arg name="joint_controller_topic" default="joint_group_position_controller/command" description="Change to remap command topic for actuator controller (ROS control)."/>
     <arg name="hardware_connected" default="false" description="Flag useful to launch hardware connected launch files. This auto disables publishing joint_states."/>
 
-    <arg name="frame_prefix" if="$(eval robot_name == '/')" value=""/>
-    <arg name="frame_prefix" unless="$(eval robot_name == '/')" value="$(var robot_name)/"/>
+    <arg name="frame_prefix" if="$(eval robot_name == \"/\")" value=""/>
+    <arg name="frame_prefix" unless="$(eval robot_name == \"/\")" value="$(var robot_name)/"/>
 
     <include file="$(find-pkg-share champ_bringup)/launch/bringup.launch.py">
         <arg name="robot_name" value="$(var robot_name)"/>
