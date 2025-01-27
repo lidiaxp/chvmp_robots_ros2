@@ -68,6 +68,15 @@ def generate_launch_description():
         "world_init_heading", default_value="0.0"
     )
 
+    controller_spawner = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_group_effort_controller'],
+        output='screen',
+        parameters=[
+            {"use_sim_time": LaunchConfiguration("use_sim_time")}
+        ]
+    )
     
     bringup_ld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -127,6 +136,7 @@ def generate_launch_description():
             declare_world_init_x,
             declare_world_init_y,
             declare_world_init_heading,
+            controller_spawner,
             bringup_ld,
             gazebo_ld
 
