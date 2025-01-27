@@ -47,22 +47,22 @@ def generate_launch_description():
             description='Set to true if connected to a physical robot'
         ),
 
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(bringup_launch_path),
-            launch_arguments={
-                "use_sim_time": LaunchConfiguration("sim"),
-                "robot_name": LaunchConfiguration("robot_name"),
-                "gazebo": LaunchConfiguration("sim"),
-                "rviz": LaunchConfiguration("rviz"),
-                "hardware_connected": LaunchConfiguration("hardware_connected"),
-                "publish_foot_contacts": "true",
-                "close_loop_odom": "true",
-                "joint_controller_topic": "joint_group_effort_controller/joint_trajectory",
-                "joints_map_path": joints_config,
-                "links_map_path": links_config,
-                "gait_config_path": gait_config
-            }.items(),
-        ),
+        # IncludeLaunchDescription(
+        #     PythonLaunchDescriptionSource(bringup_launch_path),
+        #     launch_arguments={
+        #         "use_sim_time": LaunchConfiguration("sim"),
+        #         "robot_name": LaunchConfiguration("robot_name"),
+        #         "gazebo": LaunchConfiguration("sim"),
+        #         "rviz": LaunchConfiguration("rviz"),
+        #         "hardware_connected": LaunchConfiguration("hardware_connected"),
+        #         "publish_foot_contacts": "true",
+        #         "close_loop_odom": "true",
+        #         "joint_controller_topic": "joint_group_effort_controller/joint_trajectory",
+        #         "joints_map_path": joints_config,
+        #         "links_map_path": links_config,
+        #         "gait_config_path": gait_config
+        #     }.items(),
+        # ),
         
         # Node(
         #     package='controller_manager',
