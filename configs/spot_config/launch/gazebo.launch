@@ -10,26 +10,23 @@
     <arg name="world_init_y" default="0.0" description="Y Initial position of the robot in Gazebo World."/>
     <arg name="world_init_heading" default="0.0" description="Initial heading of the robot in Gazebo World."/>
 
-    <!-- Push namespace -->
-    <group>
-        <push-ros-namespace ns="$(var robot_name)"/>
+    <!-- Include ROS Control -->
+    <include file="$(find-pkg-share spot_config)/launch/include/ros_control.launch.py">
+        <arg name="ros_control_file" value="$(var ros_control_file)"/>
+        <arg name="namespace" value="$(var robot_name)"/>
+    </include>
 
-        <!-- ROS Control configuration -->
-        <include file="$(find-pkg-share spot_config)/launch/include/ros_control.launch.py">
-            <arg name="ros_control_file" value="$(var ros_control_file)"/>
-        </include>
+    <!-- Include Gazebo Simulation -->
+    <include file="$(find-pkg-share spot_config)/launch/include/gazebo.launch.py">
+        <arg name="gazebo_world" value="$(var gazebo_world)"/>
+        <arg name="gui" value="$(var gui)"/>
+        <arg name="world_init_x" value="$(var world_init_x)"/>
+        <arg name="world_init_y" value="$(var world_init_y)"/>
+        <arg name="world_init_heading" value="$(var world_init_heading)"/>
+        <arg name="namespace" value="$(var robot_name)"/>
+    </include>
 
-        <!-- Gazebo simulation -->
-        <include file="$(find-pkg-share spot_config)/launch/include/gazebo.launch.py">
-            <arg name="gazebo_world" value="$(var gazebo_world)"/>
-            <arg name="gui" value="$(var gui)"/>
-            <arg name="world_init_x" value="$(var world_init_x)"/>
-            <arg name="world_init_y" value="$(var world_init_y)"/>
-            <arg name="world_init_heading" value="$(var world_init_heading)"/>
-        </include>
-
-        <!-- RViz Node -->
-        <node if="$(var rviz)" pkg="rviz2" exec="rviz2" name="rviz" output="screen"
-              args="-d $(find-pkg-share champ_navigation)/rviz/navigate.rviz -f $(var robot_name)/map"/>
-    </group>
+    <!-- RViz Node -->
+    <node if="$(var rviz)" pkg="rviz2" exec="rviz2" name="rviz" output="screen"
+          args="-d $(find-pkg-share champ_navigation)/rviz/navigate.rviz -f $(var robot_name)/map"/>
 </launch>
