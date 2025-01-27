@@ -36,10 +36,6 @@ def generate_launch_description():
     default_model_path = os.path.join(descr_pkg_share, "urdf/spot.urdf.xacro")
     default_world_path = os.path.join(config_pkg_share, "worlds/default.world")
 
-
-
-
-
     declare_use_sim_time = DeclareLaunchArgument(
         "use_sim_time",
         default_value="true",
