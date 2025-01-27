@@ -64,11 +64,11 @@ def generate_launch_description():
             }.items(),
         ),
         
-        Node(
-            package='controller_manager',
-            executable='spawner.py',
-            name='controller_spawner',
-            arguments=['joint_group_effort_controller'],
-            output='screen'
-        )
+        # Node(
+        #     package='controller_manager',
+        #     executable='spawner.py',
+        #     name='controller_spawner',
+        #     arguments=['joint_group_effort_controller'],
+        #     output='screen'
+        # )
     ])

@@ -45,7 +45,7 @@ def generate_launch_description():
         "rviz", default_value="false", description="Launch rviz"
     )
     declare_robot_name = DeclareLaunchArgument(
-        "robot_name", default_value="go2", description="Robot name"
+        "robot_name", default_value="spot", description="Robot name"
     )
     declare_lite = DeclareLaunchArgument(
         "lite", default_value="false", description="Lite"
@@ -69,30 +69,30 @@ def generate_launch_description():
     )
 
     
-    bringup_ld = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                get_package_share_directory("champ_bringup"),
-                "launch",
-                "bringup.launch.py",
-            )
-        ),
-        launch_arguments={
-            "description_path": default_model_path,
-            "joints_map_path": joints_config,
-            "links_map_path": links_config,
-            "gait_config_path": gait_config,
-            "use_sim_time": LaunchConfiguration("use_sim_time"),
-            "robot_name": LaunchConfiguration("robot_name"),
-            "gazebo": "true",
-            "lite": LaunchConfiguration("lite"),
-            "rviz": LaunchConfiguration("rviz"),
-            "joint_controller_topic": "joint_group_effort_controller/joint_trajectory",
-            "hardware_connected": "false",
-            "publish_foot_contacts": "false",
-            "close_loop_odom": "true",
-        }.items(),
-    )
+    # bringup_ld = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(
+    #             get_package_share_directory("champ_bringup"),
+    #             "launch",
+    #             "bringup.launch.py",
+    #         )
+    #     ),
+    #     launch_arguments={
+    #         "description_path": default_model_path,
+    #         "joints_map_path": joints_config,
+    #         "links_map_path": links_config,
+    #         "gait_config_path": gait_config,
+    #         "use_sim_time": LaunchConfiguration("use_sim_time"),
+    #         "robot_name": LaunchConfiguration("robot_name"),
+    #         "gazebo": "true",
+    #         "lite": LaunchConfiguration("lite"),
+    #         "rviz": LaunchConfiguration("rviz"),
+    #         "joint_controller_topic": "joint_group_effort_controller/joint_trajectory",
+    #         "hardware_connected": "false",
+    #         "publish_foot_contacts": "false",
+    #         "close_loop_odom": "true",
+    #     }.items(),
+    # )
 
     gazebo_ld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -127,7 +127,7 @@ def generate_launch_description():
             declare_world_init_x,
             declare_world_init_y,
             declare_world_init_heading,
-            bringup_ld,
+            # bringup_ld,
             gazebo_ld
 
         ]
