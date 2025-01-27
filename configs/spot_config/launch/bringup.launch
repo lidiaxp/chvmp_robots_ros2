@@ -1,5 +1,4 @@
 <launch>
-    <!-- Arguments -->
     <arg name="robot_name" default="/" description="Change this for namespacing."/>
     <arg name="base_frame" default="body" description="Link name of floating base. Do not touch this."/>
     <arg name="joints_map_file" default="$(find-pkg-share spot_config)/config/joints/joints.yaml" description="Path to list of joint names. Do not touch this."/>
@@ -21,7 +20,6 @@
     <arg name="frame_prefix" if="$(eval robot_name == '/')" value=""/>
     <arg name="frame_prefix" unless="$(eval robot_name == '/')" value="$(var robot_name)/"/>
 
-    <!-- Include Bringup Launch -->
     <include file="$(find-pkg-share champ_bringup)/launch/bringup.launch.py">
         <arg name="robot_name" value="$(var robot_name)"/>
         <arg name="base_frame" value="$(var base_frame)"/>
@@ -42,7 +40,6 @@
         <arg name="close_loop_odom" value="$(var close_loop_odom)"/>
     </include>
 
-    <!-- Hardware Specific Group -->
     <group if="$(var hardware_connected)">
         <node pkg="tf2_ros" exec="static_transform_publisher" name="base_link_to_laser"
               args="0 0 0 0 0 0 $(var frame_prefix)body $(var frame_prefix)laser"/>

@@ -1,5 +1,4 @@
 <launch>
-    <!-- Arguments -->
     <arg name="robot_name" default="/" description="Change this for namespacing."/>
     <arg name="rviz" default="false" description="Set to true to run RViz in parallel."/>
     <arg name="lite" default="false" description="Set to true if you're using CHAMP lite version. Only useful for microcontrollers."/>
