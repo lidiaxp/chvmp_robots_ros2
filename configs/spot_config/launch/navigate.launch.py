@@ -1,31 +1,58 @@
-<launch>
-    <!-- Arguments -->
-    <arg name="robot_name" default="/" description="Robot namespace."/>
-    <arg name="rviz" default="false" description="Launch RViz if true."/>
-    <arg name="frame_prefix" if="$(eval arg('robot_name') == '/')" value=""/>
-    <arg name="frame_prefix" unless="$(eval arg('robot_name') == '/')" value="$(var robot_name)/"/>
+import os
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.substitutions import FindPackageShare
 
-    <group ns="$(var robot_name)">
-        <!-- Map server -->
-        <arg name="map_file" default="package://spot_config/maps/map.yaml"/>
-        <node pkg="nav2_map_server" exec="map_server" name="map_server">
-            <param name="frame_id" value="$(var frame_prefix)map"/>
-            <param name="yaml_filename" value="$(var map_file)"/>
-        </node>
 
-        <!-- AMCL used for localization -->
-        <include file="$(find-package spot_config)/launch/include/amcl.launch.py">
-            <arg name="frame_prefix" value="$(var frame_prefix)"/>
-        </include>
+def generate_launch_description():
+    this_package = FindPackageShare('spot_config')
 
-        <!-- Calls navigation stack -->
-        <include file="$(find-package spot_config)/launch/include/move_base.launch.py">
-            <arg name="frame_prefix" value="$(var frame_prefix)"/>
-            <arg name="robot_name" value="$(var robot_name)"/>
-        </include>
+    default_map_path = PathJoinSubstitution(
+        [this_package, 'maps', 'map.yaml']
+    )
 
-        <!-- RViz Node -->
-        <node if="$(var rviz)" pkg="rviz2" exec="rviz2" name="rviz" output="screen"
-              args="-d package://champ_navigation/rviz/navigate.rviz -f $(var frame_prefix)map"/>
-    </group>
-</launch>
+    default_params_file_path = PathJoinSubstitution(
+        [this_package, 'config/autonomy', 'navigation.yaml']
+    )
+
+    nav2_launch_path = PathJoinSubstitution(
+        [FindPackageShare('champ_navigation'), 'launch', 'navigate.launch.py']
+    )
+
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            name='map', 
+            default_value=default_map_path,
+            description='Navigation map path'
+        ),
+        
+        DeclareLaunchArgument(
+            name='params_file', 
+            default_value=default_params_file_path,
+            description='Navigation2 params file'
+        ),
+
+        DeclareLaunchArgument(
+            name='sim', 
+            default_value='false',
+            description='Enable use_sime_time to true'
+        ),
+
+        DeclareLaunchArgument(
+            name='rviz', 
+            default_value='false',
+            description='Run rviz'
+        ),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(nav2_launch_path),
+            launch_arguments={
+                'map': LaunchConfiguration("map"),
+                'params_file': LaunchConfiguration("params_file"),
+                'sim': LaunchConfiguration("sim"),
+                'rviz': LaunchConfiguration("rviz")
+            }.items()
+        )
+    ])
