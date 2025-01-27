@@ -12,12 +12,12 @@
 
     <group ns="$(var robot_name)">
         <!-- ROS Control configuration -->
-        <include file="$(find-package spot_config)/launch/include/ros_control.launch.py">
+        <include file="$(find-pkg-share spot_config)/launch/include/ros_control.launch.py">
             <arg name="ros_control_file" value="$(var ros_control_file)"/>
         </include>
 
         <!-- Gazebo simulation -->
-        <include file="$(find-package spot_config)/launch/include/gazebo.launch.py">
+        <include file="$(find-pkg-share spot_config)/launch/include/gazebo.launch.py">
             <arg name="gazebo_world" value="$(var gazebo_world)"/>
             <arg name="gui" value="$(var gui)"/>
             <arg name="world_init_x" value="$(var world_init_x)"/>
