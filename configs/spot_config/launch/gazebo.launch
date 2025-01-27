@@ -10,7 +10,10 @@
     <arg name="world_init_y" default="0.0" description="Y Initial position of the robot in Gazebo World."/>
     <arg name="world_init_heading" default="0.0" description="Initial heading of the robot in Gazebo World."/>
 
-    <group ns="$(var robot_name)">
+    <!-- Push namespace -->
+    <group>
+        <push-ros-namespace ns="$(var robot_name)"/>
+
         <!-- ROS Control configuration -->
         <include file="$(find-pkg-share spot_config)/launch/include/ros_control.launch.py">
             <arg name="ros_control_file" value="$(var ros_control_file)"/>
