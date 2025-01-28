@@ -69,15 +69,24 @@ def generate_launch_description():
     )
 
     controller_manager = Node(
-    package="controller_manager",
-    executable="ros2_control_node",
-    parameters=[
-        ros_control_config,  # Caminho para o arquivo ros_control.yaml
-        {"use_sim_time": LaunchConfiguration("use_sim_time")},
-    ],
-    output="screen",
-)
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[
+            ros_control_config,  # Substitua pelo caminho correto
+            {"use_sim_time": LaunchConfiguration("use_sim_time")},
+        ],
+        output="screen",
+    )
 
+    controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_group_effort_controller"],
+        output="screen",
+        parameters=[
+            {"use_sim_time": LaunchConfiguration("use_sim_time")},
+        ],
+    )
     
     bringup_ld = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -138,6 +147,7 @@ def generate_launch_description():
             declare_world_init_y,
             declare_world_init_heading,
             controller_manager,
+            controller_spawner,
             bringup_ld,
             gazebo_ld
 
